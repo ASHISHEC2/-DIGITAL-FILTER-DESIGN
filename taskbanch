@@ -1,0 +1,29 @@
+module tb_fir_filter; 
+ reg clk, rst; 
+ reg [7:0] x_in; 
+ wire [15:0] y_out; 
+// Instantiate FIR Filter 
+ fir_filter uut ( 
+   .clk(clk), 
+   .rst(rst), 
+   .x_in(x_in), 
+   .y_out(y_out) 
+); 
+ always #5 clk = ~clk; 
+initial begin;     
+     clk = 0; 
+     rst = 1; 
+     x_in = 0; 
+     #10 rst = 0; 
+     #10 x_in = 8'd10;  // Input Sample 1 
+     #10 x_in = 8'd20;  // Input Sample 2 
+     #10 x_in = 8'd30;  // Input Sample 3 
+     #10 x_in = 8'd40;  // Input Sample 4 
+     #10 x_in = 8'd50;  // Input Sample 5 
+     #10 x_in = 8'd60;  // Input Sample 6 
+     #50 $finish; 
+   end 
+   initial begin 
+     $monitor("Time=%0t | x_in=%d | y_out=%d", $time, x_in, y_out); 
+   end; 
+endmodule

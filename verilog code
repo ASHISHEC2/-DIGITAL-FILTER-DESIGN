@@ -1,0 +1,29 @@
+
+module fir_filter ( 
+ input wire clk, 
+ input wire rst, 
+ input wire [7:0] x_in,  // 8-bit input sample 
+ output reg [15:0] y_out // 16-bit output sample 
+); 
+ parameter h0 = 8'd1; 
+ parameter h1 = 8'd2; 
+ parameter h2 = 8'd3; 
+ parameter h3 = 8'd4; 
+ reg [7:0] x [0:3];  
+ always @(posedge clk or posedge rst) begin 
+   if (rst) begin 
+      x[0] <= 0; 
+      x[1] <= 0; 
+      x[2] <= 0; 
+      x[3] <= 0; 
+      y_out <= 0; 
+     end else begin 
+      x[3] <= x[2]; 
+      x[2] <= x[1]; 
+      x[1] <= x[0]; 
+      x[0] <= x_in;            
+      y_out <= (h0 * x[0]) + (h1 * 
+      x[1]) + (h2 * x[2]) + (h3 * x[3]); 
+     end 
+   end 
+endmodule
